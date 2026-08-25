@@ -30,10 +30,79 @@ def analyze_skill_match(
     }
 
 
+def rank_projects(
+    projects: list[dict],
+    job_skills: list[str],
+) -> list[dict]:
+    """
+    Rank portfolio projects by how well their skills match a job.
+    """
+    ranked_projects = []
+
+    for project in projects:
+        analysis = analyze_skill_match(
+            project["skills"],
+            job_skills,
+        )
+
+        ranked_projects.append(
+            {
+                "name": project["name"],
+                "match_score": analysis["match_score"],
+                "matched_skills": analysis["matched_skills"],
+                "missing_skills": analysis["missing_skills"],
+            }
+        )
+
+    return sorted(
+        ranked_projects,
+        key=lambda project: project["match_score"],
+        reverse=True,
+    )
+
+
 if __name__ == "__main__":
-    project_skills = ["Python", "FastAPI", "PostgreSQL", "Docker"]
-    job_skills = ["Python", "FastAPI", "AWS", "Docker"]
+    projects = [
+        {
+            "name": "Spotify Analytics Backend",
+            "skills": [
+                "Python",
+                "FastAPI",
+                "PostgreSQL",
+                "Docker",
+            ],
+        },
+        {
+            "name": "E-Commerce Database System",
+            "skills": [
+                "Python",
+                "PostgreSQL",
+                "SQL",
+            ],
+        },
+        {
+            "name": "IT Asset Tracker",
+            "skills": [
+                "Python",
+                "SQLite",
+                "Streamlit",
+                "Pandas",
+            ],
+        },
+    ]
 
-    result = analyze_skill_match(project_skills, job_skills)
+    job_skills = [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "Docker",
+        "AWS",
+    ]
 
-    print(result)
+    rankings = rank_projects(projects, job_skills)
+
+    for index, project in enumerate(rankings, start=1):
+        print(
+            f"{index}. {project['name']} "
+            f"- {project['match_score']}%"
+        )

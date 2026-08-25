@@ -1,4 +1,4 @@
-from app.project_matcher import analyze_skill_match
+from app.project_matcher import analyze_skill_match, rank_projects
 
 
 def test_analyze_skill_match():
@@ -31,3 +31,38 @@ def test_empty_job_skills():
         "matched_skills": [],
         "missing_skills": [],
     }
+
+def test_rank_projects():
+    projects = [
+        {
+            "name": "Spotify Analytics Backend",
+            "skills": ["Python", "FastAPI", "PostgreSQL", "Docker"],
+        },
+        {
+            "name": "E-Commerce Database System",
+            "skills": ["Python", "PostgreSQL", "SQL"],
+        },
+        {
+            "name": "IT Asset Tracker",
+            "skills": ["Python", "SQLite", "Streamlit", "Pandas"],
+        },
+    ]
+
+    job_skills = [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "Docker",
+        "AWS",
+    ]
+
+    rankings = rank_projects(projects, job_skills)
+
+    assert rankings[0]["name"] == "Spotify Analytics Backend"
+    assert rankings[0]["match_score"] == 80.0
+
+    assert rankings[1]["name"] == "E-Commerce Database System"
+    assert rankings[1]["match_score"] == 40.0
+
+    assert rankings[2]["name"] == "IT Asset Tracker"
+    assert rankings[2]["match_score"] == 20.0    
