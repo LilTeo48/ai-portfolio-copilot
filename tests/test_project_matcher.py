@@ -1,4 +1,8 @@
-from app.project_matcher import analyze_skill_match, rank_projects
+from app.project_matcher import( 
+analyze_skill_match, 
+rank_projects, 
+extract_skills_from_job_description, 
+)
 
 
 def test_analyze_skill_match():
@@ -66,3 +70,52 @@ def test_rank_projects():
 
     assert rankings[2]["name"] == "IT Asset Tracker"
     assert rankings[2]["match_score"] == 20.0    
+
+def test_extract_skills_from_job_description():
+    job_description = """
+    We are seeking a backend engineer experienced with
+    Python, FastAPI, PostgreSQL, Docker, and AWS.
+    """
+
+    known_skills = [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "Docker",
+        "AWS",
+        "Java",
+    ]
+
+    skills = extract_skills_from_job_description(
+        job_description,
+        known_skills,
+    )
+
+    assert skills == [
+        "aws",
+        "docker",
+        "fastapi",
+        "postgresql",
+        "python",
+    ]  
+
+def test_sql_does_not_match_inside_postgresql():
+    job_description = """
+    Experience with Python and PostgreSQL is required.
+    """
+
+    known_skills = [
+        "Python",
+        "PostgreSQL",
+        "SQL",
+    ]
+
+    skills = extract_skills_from_job_description(
+        job_description,
+        known_skills,
+    )
+
+    assert skills == [
+        "postgresql",
+        "python",
+    ]   

@@ -1,3 +1,4 @@
+import re
 def analyze_skill_match(
     project_skills: list[str],
     job_skills: list[str],
@@ -60,6 +61,22 @@ def rank_projects(
         reverse=True,
     )
 
+def extract_skills_from_job_description(
+    job_description: str,
+    known_skills: list[str],
+) -> list[str]:
+    """
+    Extract known skills that appear in a job description.
+    """
+    found_skills = []
+
+    for skill in known_skills:
+        pattern = rf"(?<!\w){re.escape(skill)}(?!\w)"
+
+        if re.search(pattern, job_description, re.IGNORECASE):
+            found_skills.append(skill.lower())
+
+    return sorted(set(found_skills))
 
 if __name__ == "__main__":
     projects = [
@@ -91,13 +108,30 @@ if __name__ == "__main__":
         },
     ]
 
-    job_skills = [
+    job_description = """
+    We are looking for a backend engineer with experience in
+    Python, FastAPI, PostgreSQL, Docker, AWS, and REST APIs.
+    """
+
+    known_skills = [
         "Python",
         "FastAPI",
         "PostgreSQL",
         "Docker",
         "AWS",
+        "REST APIs",
+        "SQL",
+        "SQLite",
+        "Streamlit",
+        "Pandas",
     ]
+
+    job_skills = extract_skills_from_job_description(
+        job_description,
+        known_skills,
+    )
+
+    print("Extracted job skills:", job_skills)
 
     rankings = rank_projects(projects, job_skills)
 
