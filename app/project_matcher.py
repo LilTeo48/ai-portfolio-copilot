@@ -1,5 +1,11 @@
 import re
 
+from app.project_data import (
+    PROJECTS,
+    KNOWN_SKILLS,
+    SAMPLE_JOB_DESCRIPTION,
+)
+
 def analyze_skill_match(
     project_skills: list[str],
     job_skills: list[str],
@@ -187,52 +193,9 @@ def calculate_partial_upgrade_scores(project_analysis: dict) -> list[dict]:
     return upgrade_scores
 
 if __name__ == "__main__":
-    projects = [
-        {
-            "name": "Spotify Analytics Backend",
-            "skills": [
-                "Python",
-                "FastAPI",
-                "PostgreSQL",
-                "Docker",
-            ],
-        },
-        {
-            "name": "E-Commerce Database System",
-            "skills": [
-                "Python",
-                "PostgreSQL",
-                "SQL",
-            ],
-        },
-        {
-            "name": "IT Asset Tracker",
-            "skills": [
-                "Python",
-                "SQLite",
-                "Streamlit",
-                "Pandas",
-            ],
-        },
-    ]
-
-    job_description = """
-    We are looking for a backend engineer with experience in
-    Python, FastAPI, PostgreSQL, Docker, AWS, and REST APIs.
-    """
-
-    known_skills = [
-        "Python",
-        "FastAPI",
-        "PostgreSQL",
-        "Docker",
-        "AWS",
-        "REST APIs",
-        "SQL",
-        "SQLite",
-        "Streamlit",
-        "Pandas",
-    ]
+    projects = PROJECTS
+    job_description = SAMPLE_JOB_DESCRIPTION
+    known_skills = KNOWN_SKILLS
 
     job_skills = extract_skills_from_job_description(
         job_description,
