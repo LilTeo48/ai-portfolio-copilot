@@ -153,6 +153,39 @@ def calculate_projected_score(project_analysis: dict) -> float:
 
     return projected_score
 
+
+def calculate_partial_upgrade_scores(project_analysis: dict) -> list[dict]:
+    """
+    Calculate projected match scores for adding each missing skill
+    individually.
+    """
+    matched_skills = project_analysis["matched_skills"]
+    missing_skills = project_analysis["missing_skills"]
+
+    total_skills = len(matched_skills) + len(missing_skills)
+
+    if total_skills == 0:
+        return []
+
+    upgrade_scores = []
+
+    for skill in missing_skills:
+        projected_matched_count = len(matched_skills) + 1
+
+        projected_score = round(
+            (projected_matched_count / total_skills) * 100,
+            2,
+        )
+
+        upgrade_scores.append(
+            {
+                "skill": skill,
+                "projected_score": projected_score,
+            }
+        )
+
+    return upgrade_scores
+
 if __name__ == "__main__":
     projects = [
         {
@@ -223,17 +256,27 @@ if __name__ == "__main__":
 
         suggestions = generate_improvement_suggestions(project)
         projected_score = calculate_projected_score(project)
+        partial_scores = calculate_partial_upgrade_scores(project)
 
         print(
             f"Current score: {project['match_score']}% "
             f"-> Projected score: {projected_score}%"
         )
 
+        if partial_scores:
+            print("Individual skill upgrades:")
+
+            for upgrade in partial_scores:
+                print(
+                    f"- Add {upgrade['skill']} "
+                    f"-> {upgrade['projected_score']}%"
+                )
+
         if not suggestions:
             print("- No major skill gaps detected.")
         else:
             for suggestion in suggestions:
-                print(f"- {suggestion}")       
+                print(f"- {suggestion}")
 
     print("\nProject Rankings:")
 

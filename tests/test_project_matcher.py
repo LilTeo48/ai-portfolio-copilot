@@ -4,7 +4,8 @@ rank_projects,
 extract_skills_from_job_description,
 generate_project_recommendation,
 generate_improvement_suggestions,
-calculate_projected_score, 
+calculate_projected_score,
+calculate_partial_upgrade_scores, 
 )
 
 
@@ -238,4 +239,50 @@ def test_calculate_projected_score_no_skills():
 
     projected_score = calculate_projected_score(project)
 
-    assert projected_score == 0.0             
+    assert projected_score == 0.0  
+
+def test_calculate_partial_upgrade_scores():
+    project = {
+        "name": "Spotify Analytics Backend",
+        "match_score": 66.67,
+        "matched_skills": [
+            "docker",
+            "fastapi",
+            "postgresql",
+            "python",
+        ],
+        "missing_skills": [
+            "aws",
+            "rest apis",
+        ],
+    }
+
+    scores = calculate_partial_upgrade_scores(project)
+
+    assert scores == [
+        {
+            "skill": "aws",
+            "projected_score": 83.33,
+        },
+        {
+            "skill": "rest apis",
+            "projected_score": 83.33,
+        },
+    ]
+
+
+def test_calculate_partial_upgrade_scores_no_missing_skills():
+    project = {
+        "name": "Complete Backend Project",
+        "match_score": 100.0,
+        "matched_skills": [
+            "python",
+            "fastapi",
+            "postgresql",
+        ],
+        "missing_skills": [],
+    }
+
+    scores = calculate_partial_upgrade_scores(project)
+
+    assert scores == []               
