@@ -11,11 +11,6 @@ The app extracts relevant technical skills from the job description, compares th
 - Spotify Analytics Backend: https://github.com/LilTeo48/spotify-analytics-backend
 - ETL / Data Warehouse Project: https://github.com/LilTeo48/pythonprojects
 - LinkedIn: https://www.linkedin.com/in/tyler-chadwick-81b9a6275/
-- Portfolio Website: [Add your portfolio URL here when ready]
-
-## Features
-...
-
 
 ## Features
 
@@ -45,10 +40,9 @@ REST APIs
 
 ## Portfolio Projects
 
-### Spotify Analytics Backend
-Backend analytics API built with Python, FastAPI, PostgreSQL, and Docker.
+ ### Spotify Analytics Backend Backend analytics API built with Python, FastAPI, PostgreSQL, and Docker.
 
-**Skills demonstrated:**
+ **Skills demonstrated:**
 - Python
 - FastAPI
 - PostgreSQL
@@ -56,8 +50,7 @@ Backend analytics API built with Python, FastAPI, PostgreSQL, and Docker.
 - REST API development
 - Backend architecture
 
-### E-Commerce Database System
-Database-focused application designed around customers, products, orders, payments, and business analytics.
+### E-Commerce Database System Database-focused application designed around customers, products, orders, payments, and business analytics.
 
 **Skills demonstrated:**
 - Python
@@ -67,8 +60,7 @@ Database-focused application designed around customers, products, orders, paymen
 - Data modeling
 - Analytics queries
 
-### IT Asset Tracker
-Asset-management application that processes inventory data, stores it in SQLite, and presents results through a Streamlit dashboard.
+### IT Asset Tracker Asset-management application that processes inventory data, stores it in SQLite, and presents results through a Streamlit dashboard.
 
 **Skills demonstrated:**
 - Python
@@ -78,10 +70,7 @@ Asset-management application that processes inventory data, stores it in SQLite,
 - Data cleaning
 - Dashboard development
 
-## Future Improvements
-
-Planned enhancements include:
-
+## Future Improvements Planned enhancements include:
 - Add support for more technical skills and skill aliases
 - Improve job-description parsing for more complex role requirements
 - Allow users to add and edit their own portfolio projects
@@ -93,9 +82,7 @@ Planned enhancements include:
 - Improve Streamlit UI and visualization
 - Deploy the application publicly with Streamlit Community Cloud
 
-## How It Works
-
-AI Portfolio Copilot follows this workflow:
+## How It Works AI Portfolio Copilot follows this workflow:
 
 1. A user enters a job description.
 2. The application extracts recognized technical skills.
@@ -106,15 +93,9 @@ AI Portfolio Copilot follows this workflow:
 7. Improvement recommendations are generated.
 8. Projected scores show how specific upgrades could improve the match.
 
-## Why I Built This
-
-Software engineering and data job descriptions often contain long lists of technologies and requirements.
-
-AI Portfolio Copilot helps turn those requirements into actionable portfolio decisions by showing:
-
+## Why I Built This Software engineering and data job descriptions often contain long lists of technologies and requirements.AI Portfolio Copilot helps turn those requirements into actionable portfolio decisions by showing:
 - which projects best match a target role
 - which skills are already demonstrated
 - which skills are missing
 - which project improvements could increase relevance to the role
-
-The project demonstrates Python application design, skill extraction, recommendation logic, automated testing, data organization, and Streamlit development.
+- The project demonstrates Python application design, skill extraction, recommendation logic, automated testing, data organization, and Streamlit development.
