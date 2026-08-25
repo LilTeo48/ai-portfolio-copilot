@@ -62,7 +62,9 @@ analyze_button = st.button(
 
 if analyze_button:
     if not job_description.strip():
-        st.warning("Enter a job description before analyzing.")
+        st.warning(
+            "Enter a job description before analyzing."
+        )
         st.stop()
 
     job_skills = extract_skills_from_job_description(
@@ -77,7 +79,6 @@ if analyze_button:
         st.stop()
 
     st.subheader("Detected Job Skills")
-
     st.write(", ".join(job_skills))
 
     projects_to_analyze = list(PROJECTS)
@@ -115,7 +116,18 @@ if analyze_button:
 
     st.subheader("Project Rankings")
 
-    for index, project in enumerate(rankings, start=1):
+    best_project = rankings[0]
+
+    st.success(
+        f"🏆 Best Project to Feature: "
+        f"{best_project['name']} "
+        f"({best_project['match_score']}% match)"
+    )
+
+    for index, project in enumerate(
+        rankings,
+        start=1,
+    ):
         with st.container(border=True):
             st.markdown(
                 f"### {index}. {project['name']}"
@@ -132,8 +144,10 @@ if analyze_button:
                 )
 
             with col2:
-                projected_score = calculate_projected_score(
-                    project
+                projected_score = (
+                    calculate_projected_score(
+                        project
+                    )
                 )
 
                 st.metric(
@@ -146,14 +160,18 @@ if analyze_button:
             st.markdown("**Recommendation**")
 
             st.write(
-                generate_project_recommendation(project)
+                generate_project_recommendation(
+                    project
+                )
             )
 
             st.markdown("**Matched Skills**")
 
             if project["matched_skills"]:
                 st.write(
-                    ", ".join(project["matched_skills"])
+                    ", ".join(
+                        project["matched_skills"]
+                    )
                 )
             else:
                 st.write("None")
@@ -162,33 +180,46 @@ if analyze_button:
 
             if project["missing_skills"]:
                 st.write(
-                    ", ".join(project["missing_skills"])
+                    ", ".join(
+                        project["missing_skills"]
+                    )
                 )
             else:
                 st.write("None")
 
             partial_scores = (
-                calculate_partial_upgrade_scores(project)
+                calculate_partial_upgrade_scores(
+                    project
+                )
             )
 
             if partial_scores:
-                st.markdown("**Individual Skill Upgrades**")
+                st.markdown(
+                    "**Individual Skill Upgrades**"
+                )
 
                 for upgrade in partial_scores:
                     st.write(
                         f"Add **{upgrade['skill']}** "
-                        f"→ {upgrade['projected_score']}%"
+                        f"→ "
+                        f"{upgrade['projected_score']}%"
                     )
 
             suggestions = (
-                generate_improvement_suggestions(project)
+                generate_improvement_suggestions(
+                    project
+                )
             )
 
-            st.markdown("**Improvement Suggestions**")
+            st.markdown(
+                "**Improvement Suggestions**"
+            )
 
             if suggestions:
                 for suggestion in suggestions:
-                    st.write(f"- {suggestion}")
+                    st.write(
+                        f"- {suggestion}"
+                    )
             else:
                 st.success(
                     "No major skill gaps detected."
