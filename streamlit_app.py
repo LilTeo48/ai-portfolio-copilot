@@ -15,6 +15,26 @@ from app.project_matcher import (
 )
 
 
+def format_skill_name(skill: str) -> str:
+    display_names = {
+        "aws": "AWS",
+        "fastapi": "FastAPI",
+        "postgresql": "PostgreSQL",
+        "rest apis": "REST APIs",
+        "sql": "SQL",
+        "sqlite": "SQLite",
+        "streamlit": "Streamlit",
+        "pandas": "Pandas",
+        "python": "Python",
+        "docker": "Docker",
+    }
+
+    return display_names.get(
+        skill.lower(),
+        skill.title(),
+    )
+
+
 st.set_page_config(
     page_title="AI Portfolio Copilot",
     page_icon="🚀",
@@ -79,7 +99,13 @@ if analyze_button:
         st.stop()
 
     st.subheader("Detected Job Skills")
-    st.write(", ".join(job_skills))
+
+    st.write(
+        ", ".join(
+            format_skill_name(skill)
+            for skill in job_skills
+        )
+    )
 
     projects_to_analyze = list(PROJECTS)
 
@@ -170,7 +196,8 @@ if analyze_button:
             if project["matched_skills"]:
                 st.write(
                     ", ".join(
-                        project["matched_skills"]
+                        format_skill_name(skill)
+                        for skill in project["matched_skills"]
                     )
                 )
             else:
@@ -181,7 +208,8 @@ if analyze_button:
             if project["missing_skills"]:
                 st.write(
                     ", ".join(
-                        project["missing_skills"]
+                        format_skill_name(skill)
+                        for skill in project["missing_skills"]
                     )
                 )
             else:
@@ -200,7 +228,8 @@ if analyze_button:
 
                 for upgrade in partial_scores:
                     st.write(
-                        f"Add **{upgrade['skill']}** "
+                        f"Add "
+                        f"**{format_skill_name(upgrade['skill'])}** "
                         f"→ "
                         f"{upgrade['projected_score']}%"
                     )
