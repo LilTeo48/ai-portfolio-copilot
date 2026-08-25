@@ -320,4 +320,49 @@ def test_get_job_description_from_user_empty(monkeypatch):
 
     job_description = get_job_description_from_user()
 
-    assert job_description == ""                   
+    assert job_description == ""
+
+def test_extracts_skill_aliases():
+    job_description = """
+    We are looking for experience with
+    Postgres, Amazon Web Services, and RESTful APIs.
+    """
+
+    known_skills = [
+        "PostgreSQL",
+        "AWS",
+        "REST APIs",
+    ]
+
+    result = extract_skills_from_job_description(
+        job_description,
+        known_skills,
+    )
+
+    assert result == [
+        "aws",
+        "postgresql",
+        "rest apis",
+    ]
+
+
+def test_aliases_do_not_create_duplicates():
+    job_description = """
+    Experience with PostgreSQL, Postgres,
+    AWS, and Amazon Web Services is required.
+    """
+
+    known_skills = [
+        "PostgreSQL",
+        "AWS",
+    ]
+
+    result = extract_skills_from_job_description(
+        job_description,
+        known_skills,
+    )
+
+    assert result == [
+        "aws",
+        "postgresql",
+    ]                     

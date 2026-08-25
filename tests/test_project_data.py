@@ -2,6 +2,7 @@ from app.project_data import (
     PROJECTS,
     KNOWN_SKILLS,
     SAMPLE_JOB_DESCRIPTION,
+    SKILL_ALIASES,
 )
 
 
@@ -23,3 +24,8 @@ def test_known_skills_not_empty():
 
 def test_sample_job_description_not_empty():
     assert SAMPLE_JOB_DESCRIPTION.strip()
+
+def test_skill_aliases_not_empty():
+    assert SKILL_ALIASES
+    assert SKILL_ALIASES["postgres"] == "postgresql"
+    assert SKILL_ALIASES["amazon web services"] == "aws"    

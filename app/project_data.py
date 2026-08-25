@@ -43,6 +43,21 @@ KNOWN_SKILLS = [
     "Pandas",
 ]
 
+SKILL_ALIASES = {
+    "postgres": "postgresql",
+    "postgresql": "postgresql",
+    "amazon web services": "aws",
+    "aws": "aws",
+    "rest api": "rest apis",
+    "rest APIs": "rest apis",
+    "restful api": "rest apis",
+    "restful apis": "rest apis",
+    "javascript": "javascript",
+    "js": "javascript",
+    "typescript": "typescript",
+    "ts": "typescript",
+}
+
 
 SAMPLE_JOB_DESCRIPTION = """
 We are looking for a backend engineer with experience in

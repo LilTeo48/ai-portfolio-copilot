@@ -4,6 +4,7 @@ from app.project_data import (
     PROJECTS,
     KNOWN_SKILLS,
     SAMPLE_JOB_DESCRIPTION,
+    SKILL_ALIASES,
 )
 
 def analyze_skill_match(
@@ -73,17 +74,29 @@ def extract_skills_from_job_description(
     known_skills: list[str],
 ) -> list[str]:
     """
-    Extract known skills that appear in a job description.
+    Extract recognized skills from a job description and normalize
+    aliases to their canonical skill names.
     """
-    found_skills = []
+    found_skills = set()
 
-    for skill in known_skills:
-        pattern = rf"(?<!\w){re.escape(skill)}(?!\w)"
+    searchable_skills = {
+        skill.lower(): skill.lower()
+        for skill in known_skills
+    }
 
-        if re.search(pattern, job_description, re.IGNORECASE):
-            found_skills.append(skill.lower())
+    searchable_skills.update(SKILL_ALIASES)
 
-    return sorted(set(found_skills))
+    for searchable_skill, canonical_skill in searchable_skills.items():
+        pattern = rf"(?<!\w){re.escape(searchable_skill)}(?!\w)"
+
+        if re.search(
+            pattern,
+            job_description,
+            re.IGNORECASE,
+        ):
+            found_skills.add(canonical_skill)
+
+    return sorted(found_skills)
 
 def generate_project_recommendation(project_analysis: dict) -> str:
     """
