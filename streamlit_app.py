@@ -38,6 +38,22 @@ job_description = st.text_area(
 )
 
 
+with st.expander("➕ Add a Custom Portfolio Project"):
+    custom_project_name = st.text_input(
+        "Project Name",
+        placeholder="Example: AI Resume Analyzer",
+    )
+
+    custom_project_skills = st.text_input(
+        "Project Skills",
+        placeholder="Python, FastAPI, PostgreSQL, Docker",
+    )
+
+    include_custom_project = st.checkbox(
+        "Include custom project in analysis",
+    )
+
+
 analyze_button = st.button(
     "Analyze Portfolio",
     type="primary",
@@ -64,8 +80,36 @@ if analyze_button:
 
     st.write(", ".join(job_skills))
 
+    projects_to_analyze = list(PROJECTS)
+
+    if include_custom_project:
+        if not custom_project_name.strip():
+            st.warning(
+                "Enter a project name before including a custom project."
+            )
+            st.stop()
+
+        skills = [
+            skill.strip()
+            for skill in custom_project_skills.split(",")
+            if skill.strip()
+        ]
+
+        if not skills:
+            st.warning(
+                "Enter at least one skill for the custom project."
+            )
+            st.stop()
+
+        custom_project = {
+            "name": custom_project_name.strip(),
+            "skills": skills,
+        }
+
+        projects_to_analyze.append(custom_project)
+
     rankings = rank_projects(
-        PROJECTS,
+        projects_to_analyze,
         job_skills,
     )
 
