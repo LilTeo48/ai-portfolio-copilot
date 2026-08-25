@@ -1,4 +1,5 @@
 import re
+
 def analyze_skill_match(
     project_skills: list[str],
     job_skills: list[str],
@@ -105,6 +106,33 @@ def generate_project_recommendation(project_analysis: dict) -> str:
         f"Missing skills: {missing_text}."
     ) 
 
+def generate_improvement_suggestions(project_analysis: dict) -> list[str]:
+    """
+    Generate actionable improvement suggestions based on missing skills.
+    """
+    missing_skills = project_analysis["missing_skills"]
+
+    suggestion_map = {
+        "aws": "Deploy the project to AWS and document the deployment architecture.",
+        "rest apis": "Add or document REST API endpoints and include example requests.",
+        "docker": "Containerize the project with Docker and add setup instructions.",
+        "postgresql": "Add PostgreSQL persistence and document the database schema.",
+        "sql": "Add SQL queries that demonstrate analytics or business insights.",
+        "fastapi": "Expose the project through FastAPI endpoints.",
+        "python": "Add Python-based backend or automation functionality.",
+    }
+
+    suggestions = []
+
+    for skill in missing_skills:
+        suggestion = suggestion_map.get(
+            skill,
+            f"Add a project feature that demonstrates {skill}.",
+        )
+        suggestions.append(suggestion)
+
+    return suggestions
+
 if __name__ == "__main__":
     projects = [
         {
@@ -168,7 +196,20 @@ if __name__ == "__main__":
         recommendation = generate_project_recommendation(project)
         print(recommendation)
 
+    print("\nImprovement Suggestions:")
 
+    for project in rankings:
+        print(f"\n{project['name']}")
+
+        suggestions = generate_improvement_suggestions(project)
+
+        if not suggestions:
+            print("- No major skill gaps detected.")
+        else:
+            for suggestion in suggestions:
+                print(f"- {suggestion}")
+
+    print("\nProject Rankings:")
 
     for index, project in enumerate(rankings, start=1):
         print(

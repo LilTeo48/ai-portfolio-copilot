@@ -2,7 +2,8 @@ from app.project_matcher import(
 analyze_skill_match, 
 rank_projects, 
 extract_skills_from_job_description,
-generate_project_recommendation, 
+generate_project_recommendation,
+generate_improvement_suggestions, 
 )
 
 
@@ -162,4 +163,45 @@ def test_generate_project_recommendation_strong_match():
 
     recommendation = generate_project_recommendation(project)
 
-    assert "Strong project to feature" in recommendation       
+    assert "Strong project to feature" in recommendation
+
+def test_generate_improvement_suggestions():
+    project = {
+        "name": "Spotify Analytics Backend",
+        "match_score": 66.67,
+        "matched_skills": [
+            "docker",
+            "fastapi",
+            "postgresql",
+            "python",
+        ],
+        "missing_skills": [
+            "aws",
+            "rest apis",
+        ],
+    }
+
+    suggestions = generate_improvement_suggestions(project)
+
+    assert len(suggestions) == 2
+    assert "AWS" in suggestions[0]
+    assert "REST API" in suggestions[1]
+
+
+def test_generate_improvement_suggestions_no_missing_skills():
+    project = {
+        "name": "Complete Backend Project",
+        "match_score": 100.0,
+        "matched_skills": [
+            "python",
+            "fastapi",
+            "postgresql",
+            "docker",
+            "aws",
+        ],
+        "missing_skills": [],
+    }
+
+    suggestions = generate_improvement_suggestions(project)
+
+    assert suggestions == []          
