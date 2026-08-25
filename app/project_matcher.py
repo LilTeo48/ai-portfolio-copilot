@@ -192,10 +192,37 @@ def calculate_partial_upgrade_scores(project_analysis: dict) -> list[dict]:
 
     return upgrade_scores
 
+def get_job_description_from_user() -> str:
+    """
+    Collect a multi-line job description from terminal input.
+
+    Submit an empty line to finish.
+    """
+    print("\nPaste the job description below.")
+    print("Press Enter on an empty line when finished.\n")
+
+    lines = []
+
+    while True:
+        line = input()
+
+        if not line.strip():
+            break
+
+        lines.append(line)
+
+    return "\n".join(lines).strip()    
+
 if __name__ == "__main__":
     projects = PROJECTS
-    job_description = SAMPLE_JOB_DESCRIPTION
     known_skills = KNOWN_SKILLS
+
+    job_description = get_job_description_from_user()
+
+    if not job_description:
+        print("\nNo job description entered.")
+        print("Using the sample job description instead.")
+        job_description = SAMPLE_JOB_DESCRIPTION
 
     job_skills = extract_skills_from_job_description(
         job_description,

@@ -5,7 +5,8 @@ extract_skills_from_job_description,
 generate_project_recommendation,
 generate_improvement_suggestions,
 calculate_projected_score,
-calculate_partial_upgrade_scores, 
+calculate_partial_upgrade_scores,
+get_job_description_from_user, 
 )
 
 
@@ -285,4 +286,38 @@ def test_calculate_partial_upgrade_scores_no_missing_skills():
 
     scores = calculate_partial_upgrade_scores(project)
 
-    assert scores == []               
+    assert scores == []
+
+def test_get_job_description_from_user(monkeypatch):
+    responses = iter(
+        [
+            "Backend Engineer",
+            "Python FastAPI PostgreSQL AWS",
+            "",
+        ]
+    )
+
+    monkeypatch.setattr(
+        "builtins.input",
+        lambda: next(responses),
+    )
+
+    job_description = get_job_description_from_user()
+
+    assert job_description == (
+        "Backend Engineer\n"
+        "Python FastAPI PostgreSQL AWS"
+    )
+
+
+def test_get_job_description_from_user_empty(monkeypatch):
+    responses = iter([""])
+
+    monkeypatch.setattr(
+        "builtins.input",
+        lambda: next(responses),
+    )
+
+    job_description = get_job_description_from_user()
+
+    assert job_description == ""                   
