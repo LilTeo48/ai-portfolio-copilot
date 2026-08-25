@@ -4,10 +4,6 @@ AI Portfolio Copilot is a Python and Streamlit application that analyzes a job d
 
 The app extracts relevant technical skills from the job description, compares them with the technologies used in each project, ranks the projects by match percentage, identifies missing skills, and recommends specific improvements that could strengthen each project for the target role.
 
-# AI Portfolio Copilot
-
-AI Portfolio Copilot is a Python and Streamlit application that analyzes job descriptions against a developer's portfolio projects.
-
 ## Links
 
 - GitHub: https://github.com/LilTeo48
