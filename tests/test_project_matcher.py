@@ -3,7 +3,8 @@ analyze_skill_match,
 rank_projects, 
 extract_skills_from_job_description,
 generate_project_recommendation,
-generate_improvement_suggestions, 
+generate_improvement_suggestions,
+calculate_projected_score, 
 )
 
 
@@ -204,4 +205,37 @@ def test_generate_improvement_suggestions_no_missing_skills():
 
     suggestions = generate_improvement_suggestions(project)
 
-    assert suggestions == []          
+    assert suggestions == []
+
+def test_calculate_projected_score():
+    project = {
+        "name": "Spotify Analytics Backend",
+        "match_score": 66.67,
+        "matched_skills": [
+            "docker",
+            "fastapi",
+            "postgresql",
+            "python",
+        ],
+        "missing_skills": [
+            "aws",
+            "rest apis",
+        ],
+    }
+
+    projected_score = calculate_projected_score(project)
+
+    assert projected_score == 100.0
+
+
+def test_calculate_projected_score_no_skills():
+    project = {
+        "name": "Empty Project",
+        "match_score": 0.0,
+        "matched_skills": [],
+        "missing_skills": [],
+    }
+
+    projected_score = calculate_projected_score(project)
+
+    assert projected_score == 0.0             

@@ -133,6 +133,26 @@ def generate_improvement_suggestions(project_analysis: dict) -> list[str]:
 
     return suggestions
 
+def calculate_projected_score(project_analysis: dict) -> float:
+    """
+    Calculate the projected match score if all missing skills
+    were added to the project.
+    """
+    matched_skills = project_analysis["matched_skills"]
+    missing_skills = project_analysis["missing_skills"]
+
+    total_skills = len(matched_skills) + len(missing_skills)
+
+    if total_skills == 0:
+        return 0.0
+
+    projected_score = round(
+        (total_skills / total_skills) * 100,
+        2,
+    )
+
+    return projected_score
+
 if __name__ == "__main__":
     projects = [
         {
@@ -202,12 +222,18 @@ if __name__ == "__main__":
         print(f"\n{project['name']}")
 
         suggestions = generate_improvement_suggestions(project)
+        projected_score = calculate_projected_score(project)
+
+        print(
+            f"Current score: {project['match_score']}% "
+            f"-> Projected score: {projected_score}%"
+        )
 
         if not suggestions:
             print("- No major skill gaps detected.")
         else:
             for suggestion in suggestions:
-                print(f"- {suggestion}")
+                print(f"- {suggestion}")       
 
     print("\nProject Rankings:")
 
