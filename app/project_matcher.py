@@ -78,6 +78,33 @@ def extract_skills_from_job_description(
 
     return sorted(set(found_skills))
 
+def generate_project_recommendation(project_analysis: dict) -> str:
+    """
+    Generate a simple recommendation explaining why a project
+    is or is not a strong match for a job.
+    """
+    name = project_analysis["name"]
+    score = project_analysis["match_score"]
+    matched_skills = project_analysis["matched_skills"]
+    missing_skills = project_analysis["missing_skills"]
+
+    matched_text = ", ".join(matched_skills) if matched_skills else "none"
+    missing_text = ", ".join(missing_skills) if missing_skills else "none"
+
+    if score >= 75:
+        recommendation = "Strong project to feature."
+    elif score >= 50:
+        recommendation = "Good project to feature, but it has some skill gaps."
+    else:
+        recommendation = "Not the strongest project for this job."
+
+    return (
+        f"{name}: {recommendation} "
+        f"Match score: {score}%. "
+        f"Matched skills: {matched_text}. "
+        f"Missing skills: {missing_text}."
+    ) 
+
 if __name__ == "__main__":
     projects = [
         {
@@ -134,6 +161,14 @@ if __name__ == "__main__":
     print("Extracted job skills:", job_skills)
 
     rankings = rank_projects(projects, job_skills)
+
+    print("\nProject Recommendations:")
+
+    for project in rankings:
+        recommendation = generate_project_recommendation(project)
+        print(recommendation)
+
+
 
     for index, project in enumerate(rankings, start=1):
         print(

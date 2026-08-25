@@ -1,7 +1,8 @@
 from app.project_matcher import( 
 analyze_skill_match, 
 rank_projects, 
-extract_skills_from_job_description, 
+extract_skills_from_job_description,
+generate_project_recommendation, 
 )
 
 
@@ -118,4 +119,47 @@ def test_sql_does_not_match_inside_postgresql():
     assert skills == [
         "postgresql",
         "python",
-    ]   
+    ]
+
+def test_generate_project_recommendation_good_match():
+    project = {
+        "name": "Spotify Analytics Backend",
+        "match_score": 66.67,
+        "matched_skills": [
+            "docker",
+            "fastapi",
+            "postgresql",
+            "python",
+        ],
+        "missing_skills": [
+            "aws",
+            "rest apis",
+        ],
+    }
+
+    recommendation = generate_project_recommendation(project)
+
+    assert "Spotify Analytics Backend" in recommendation
+    assert "Good project to feature" in recommendation
+    assert "66.67%" in recommendation
+    assert "aws" in recommendation
+
+
+def test_generate_project_recommendation_strong_match():
+    project = {
+        "name": "Backend API Project",
+        "match_score": 80.0,
+        "matched_skills": [
+            "python",
+            "fastapi",
+            "docker",
+            "aws",
+        ],
+        "missing_skills": [
+            "postgresql",
+        ],
+    }
+
+    recommendation = generate_project_recommendation(project)
+
+    assert "Strong project to feature" in recommendation       
