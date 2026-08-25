@@ -11,6 +11,7 @@ The app extracts relevant technical skills from a job description, compares them
 - Spotify Analytics Backend: https://github.com/LilTeo48/spotify-analytics-backend
 - ETL / Data Warehouse Project: https://github.com/LilTeo48/pythonprojects
 - LinkedIn: https://www.linkedin.com/in/tyler-chadwick-81b9a6275/
+- Portfolio: https://ai-portfolio-copilot-gxrf4qde5mkzhv7amssxsp.streamlit.app/
 
 ## Features
 
