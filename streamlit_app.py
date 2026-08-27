@@ -27,12 +27,25 @@ def format_skill_name(skill: str) -> str:
         "pandas": "Pandas",
         "python": "Python",
         "docker": "Docker",
+        "javascript": "JavaScript",
+        "typescript": "TypeScript",
     }
 
+    normalized_skill = skill.strip().lower()
+
     return display_names.get(
-        skill.lower(),
-        skill.title(),
+        normalized_skill,
+        skill.strip().title(),
     )
+
+
+def display_project_status(status: str) -> None:
+    if status == "Completed":
+        st.success("✅ Completed")
+    elif status == "In Progress":
+        st.info("🚧 In Progress")
+    else:
+        st.warning("⚠️ Status Unknown")
 
 
 st.set_page_config(
@@ -62,6 +75,14 @@ with st.expander("➕ Add a Custom Portfolio Project"):
     custom_project_name = st.text_input(
         "Project Name",
         placeholder="Example: AI Resume Analyzer",
+    )
+
+    custom_project_status = st.selectbox(
+        "Project Status",
+        options=[
+            "Completed",
+            "In Progress",
+        ],
     )
 
     custom_project_skills = st.text_input(
@@ -116,24 +137,25 @@ if analyze_button:
             )
             st.stop()
 
-        skills = [
+        custom_skills = [
             skill.strip()
             for skill in custom_project_skills.split(",")
             if skill.strip()
         ]
 
-        if not skills:
+        if not custom_skills:
             st.warning(
                 "Enter at least one skill for the custom project."
             )
             st.stop()
 
-        custom_project = {
-            "name": custom_project_name.strip(),
-            "skills": skills,
-        }
-
-        projects_to_analyze.append(custom_project)
+        projects_to_analyze.append(
+            {
+                "name": custom_project_name.strip(),
+                "status": custom_project_status,
+                "skills": custom_skills,
+            }
+        )
 
     rankings = rank_projects(
         projects_to_analyze,
@@ -159,6 +181,13 @@ if analyze_button:
                 f"### {index}. {project['name']}"
             )
 
+            display_project_status(
+                project.get(
+                    "status",
+                    "Unknown",
+                )
+            )
+
             score = project["match_score"]
 
             col1, col2 = st.columns(2)
@@ -181,9 +210,13 @@ if analyze_button:
                     f"{projected_score}%",
                 )
 
-            st.progress(score / 100)
+            st.progress(
+                score / 100
+            )
 
-            st.markdown("**Recommendation**")
+            st.markdown(
+                "**Recommendation**"
+            )
 
             st.write(
                 generate_project_recommendation(
@@ -191,7 +224,9 @@ if analyze_button:
                 )
             )
 
-            st.markdown("**Matched Skills**")
+            st.markdown(
+                "**Matched Skills**"
+            )
 
             if project["matched_skills"]:
                 st.write(
@@ -203,7 +238,9 @@ if analyze_button:
             else:
                 st.write("None")
 
-            st.markdown("**Missing Skills**")
+            st.markdown(
+                "**Missing Skills**"
+            )
 
             if project["missing_skills"]:
                 st.write(

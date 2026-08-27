@@ -3,6 +3,7 @@
 PROJECTS = [
     {
         "name": "Spotify Analytics Backend",
+        "status": "Completed",
         "skills": [
             "Python",
             "FastAPI",
@@ -11,20 +12,32 @@ PROJECTS = [
         ],
     },
     {
-        "name": "E-Commerce Database System",
-        "skills": [
-            "Python",
-            "PostgreSQL",
-            "SQL",
-        ],
-    },
-    {
         "name": "IT Asset Tracker",
+        "status": "Completed",
         "skills": [
             "Python",
             "SQLite",
             "Streamlit",
             "Pandas",
+        ],
+    },
+    {
+        "name": "ETL & Data Warehouse Pipeline",
+        "status": "In Progress",
+        "skills": [
+            "Python",
+            "SQL",
+            "SQLite",
+            "Pandas",
+        ],
+    },
+    {
+        "name": "E-Commerce Database System",
+        "status": "In Progress",
+        "skills": [
+            "Python",
+            "PostgreSQL",
+            "SQL",
         ],
     },
 ]
