@@ -23,7 +23,7 @@ PROJECTS = [
     },
     {
         "name": "ETL & Data Warehouse Pipeline",
-        "status": "In Progress",
+        "status": "Completed",
         "skills": [
             "Python",
             "SQL",
